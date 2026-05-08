@@ -58,8 +58,12 @@ public class MenuAdmin {
             System.out.println("  " + "-".repeat(70));
         }
         long criticos = pendentes.stream()
-            .filter(a -> ChronoUnit.DAYS.between(
-                LocalDate.now(), a.getDataCadastro().plusDays(30)) <= 5)
-            .count();
+                .filter(a -> ChronoUnit.DAYS.between(
+                        LocalDate.now(), a.getDataCadastro().plusDays(30)) <= 5)
+                .count();
+
+            if (criticos > 0) {
+            System.out.printf("%n  ATENCAO: %d exame(s) vencem em 5 dias ou menos!%n", criticos);
+        }
     }
 }
