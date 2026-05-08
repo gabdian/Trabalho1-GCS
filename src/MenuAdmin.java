@@ -9,6 +9,34 @@ import java.util.stream.Collectors;
 
 public class MenuAdmin {
 
+    // F6 - Estatísticas gerais
+        public static void estatisticasGerais() {
+        List<Medico> medicos = DataStore.getMedicos();
+        List<Paciente> pacientes = DataStore.getPacientes();
+        List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
+
+        int totalMedicos = medicos.size();
+        int totalPacientes = pacientes.size();
+        int totalAutorizacoes = autorizacoes.size();
+
+        long realizadas = autorizacoes.stream()
+                .filter(a -> a.isRealizado())
+                .count();
+
+        double percentual = totalAutorizacoes > 0
+                ? (realizadas * 100.0) / totalAutorizacoes
+                : 0.0;
+
+        System.out.println("\n === ESTATÍSTICAS GERAIS ===\n");
+        System.out.println("  " + "-".repeat(40));
+        System.out.printf("  Número de médicos: %d%n", totalMedicos);
+        System.out.printf("  Número de pacientes: %d%n", totalPacientes);
+        System.out.printf("  Autorizações emitidas: %d%n", totalAutorizacoes);
+        System.out.printf("  Exames realizados: %d de %d (%.1f%%)%n",
+                realizadas, totalAutorizacoes, percentual);
+        System.out.println("  " + "-".repeat(70));
+    }
+    
     // F7 — Listar todos os exames pendentes do sistema
 
     public static void listarExamesPendentes() {
