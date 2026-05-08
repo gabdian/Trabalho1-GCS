@@ -57,5 +57,9 @@ public class MenuAdmin {
             }
             System.out.println("  " + "-".repeat(70));
         }
+        long criticos = pendentes.stream()
+            .filter(a -> ChronoUnit.DAYS.between(
+                LocalDate.now(), a.getDataCadastro().plusDays(30)) <= 5)
+            .count();
     }
 }
