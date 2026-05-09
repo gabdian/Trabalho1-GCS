@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import data.DataStore;
+import model.Autorizacao;
 import model.Usuario;
 
 public class MenuPaciente {
@@ -26,7 +29,7 @@ public class MenuPaciente {
                     //marcarExameComoRealizado(pacienteAtual);
                     break;
                 case 3:
-                    //filtrarAutorizacoesPorMedico(pacienteAtual);
+                    filtrarAutorizacoesPorMedico(pacienteAtual);
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -37,6 +40,21 @@ public class MenuPaciente {
         } while (opcao != 0);
     }
 
-    private static void filtrarAutorizacoesPorMedico(Usuario pacienteAtual) {;
+    private static void filtrarAutorizacoesPorMedico(Usuario pacienteAtual) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Digite o nome do médico: ");
+        String nomeMedico = scanner.nextLine();
+        boolean encontrou = false;
+
+        for (Autorizacao autorizacao : DataStore.getAutorizacoes()) {
+            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().equalsIgnoreCase(nomeMedico)) {
+                System.out.println(autorizacao);
+                encontrou = true;
+            }
+        }
+        if (!encontrou) {
+            System.out.println("Nenhuma autorização encontrada para esse médico.");
+        }
     }
 }
+
