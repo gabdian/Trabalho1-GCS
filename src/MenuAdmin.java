@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class MenuAdmin {
 
-<<<<<<< HEAD
 // F6 pt2 - Estatísticas por tipo de exame
     public static void estatisticasPorExame() {
         List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
@@ -34,7 +33,7 @@ public class MenuAdmin {
     }
 }
 
-=======
+
     // F6 - Estatísticas gerais
         public static void estatisticasGerais() {
         List<Medico> medicos = DataStore.getMedicos();
@@ -63,7 +62,6 @@ public class MenuAdmin {
         System.out.println("  " + "-".repeat(70));
     }
     
->>>>>>> 236fe23ef516854d1d511e5ac600988a6044e67c
     // F7 — Listar todos os exames pendentes do sistema
 
     public static void listarExamesPendentes() {
@@ -121,7 +119,6 @@ public class MenuAdmin {
             System.out.printf("%n  ATENCAO: %d exame(s) vencem em 5 dias ou menos!%n", criticos);
         }
     }
-<<<<<<< HEAD
 
     public static void incluirUsuario(List<Usuario> usuarios,
                                       String nome) {
@@ -147,9 +144,6 @@ public class MenuAdmin {
         }
     }
 }
-=======
-<<<<<<< HEAD
-=======
 
     public static void buscarPacientePorNome(String nome) {
 
@@ -171,6 +165,4 @@ public class MenuAdmin {
             }
         }
     }
->>>>>>> 236fe23ef516854d1d511e5ac600988a6044e67c
 }
->>>>>>> 33cca390b29c91e92398d583a550df1b322d7a03
