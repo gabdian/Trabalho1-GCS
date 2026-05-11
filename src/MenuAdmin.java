@@ -58,4 +58,28 @@ public class MenuAdmin {
             System.out.println("  " + "-".repeat(70));
         }
     }
+
+    public static void incluirUsuario(List<Usuario> usuarios,
+                                      String nome) {
+
+        boolean existe = false;
+
+        for (String usuario : usuarios) {
+            if (usuario.equalsIgnoreCase(nome)) {
+                existe = true;
+            }
+        }
+
+        if (nome.isEmpty()) {
+            System.out.println("Nome inválido.");
+        } else if (nome.length() < 3) {
+            System.out.println("Nome muito curto.");
+        } else if (existe) {
+            System.out.println("OBS: Usuário já fora cadastrado.");
+        } else {
+            usuarios.add(nome);
+
+            System.out.println("Usuário incluído com sucesso.");
+        }
+    }
 }
