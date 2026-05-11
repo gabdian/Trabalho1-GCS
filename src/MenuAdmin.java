@@ -9,6 +9,30 @@ import java.util.stream.Collectors;
 
 public class MenuAdmin {
 
+// F6 pt2 - Estatísticas por tipo de exame
+    public static void estatisticasPorExame() {
+        List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
+
+        System.out.println("\n === AUTORIZAÇÕES POR TIPO DE EXAME ===\n");
+        System.out.println("  " + "-".repeat(40));
+
+        for (TipoExame tipo : TipoExame.values()) {
+            long total = autorizacoes.stream()
+                    .filter(a -> a.getTipoExame() == tipo)
+                    .count();
+
+            if (total > 0) {
+                long feitos = autorizacoes.stream()
+                        .filter(a -> a.getTipoExame() == tipo && a.isRealizado())
+                        .count();
+                System.out.printf("  %-25s %2d autorizações (%d realizadas)%n",
+                        tipo.getDescricao() + ":", total, feitos);
+            }
+        }
+        System.out.println("  " + "-".repeat(70));
+    }
+}
+
     // F7 — Listar todos os exames pendentes do sistema
 
     public static void listarExamesPendentes() {
