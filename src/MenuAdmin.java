@@ -14,7 +14,7 @@ public class MenuAdmin {
         List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
 
         System.out.println("\n === AUTORIZAÇÕES POR TIPO DE EXAME ===\n");
-        System.out.println("  " + "-".repeat(40));
+        System.out.println("  " + "-".repeat(70));
 
         for (TipoExame tipo : TipoExame.values()) {
             long total = autorizacoes.stream()
