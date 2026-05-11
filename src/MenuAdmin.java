@@ -28,7 +28,7 @@ public class MenuAdmin {
                 : 0.0;
 
         System.out.println("\n === ESTATÍSTICAS GERAIS ===\n");
-        System.out.println("  " + "-".repeat(40));
+        System.out.println("  " + "-".repeat(70));
         System.out.printf("  Número de médicos: %d%n", totalMedicos);
         System.out.printf("  Número de pacientes: %d%n", totalPacientes);
         System.out.printf("  Autorizações emitidas: %d%n", totalAutorizacoes);
