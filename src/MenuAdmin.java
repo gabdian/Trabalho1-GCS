@@ -122,6 +122,33 @@ public class MenuAdmin {
         }
     }
 <<<<<<< HEAD
+
+    public static void incluirUsuario(List<Usuario> usuarios,
+                                      String nome) {
+
+        boolean existe = false;
+
+        for (String usuario : usuarios) {
+            if (usuario.equalsIgnoreCase(nome)) {
+                existe = true;
+            }
+        }
+
+        if (nome.isEmpty()) {
+            System.out.println("Nome inválido.");
+        } else if (nome.length() < 3) {
+            System.out.println("Nome muito curto.");
+        } else if (existe) {
+            System.out.println("OBS: Usuário já fora cadastrado.");
+        } else {
+            usuarios.add(nome);
+
+            System.out.println("Usuário incluído com sucesso.");
+        }
+    }
+}
+=======
+<<<<<<< HEAD
 =======
 
     public static void buscarPacientePorNome(String nome) {
@@ -146,3 +173,4 @@ public class MenuAdmin {
     }
 >>>>>>> 236fe23ef516854d1d511e5ac600988a6044e67c
 }
+>>>>>>> 33cca390b29c91e92398d583a550df1b322d7a03
