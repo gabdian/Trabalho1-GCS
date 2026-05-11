@@ -72,7 +72,8 @@ public class Autorizacao {
 
     /**
      * Cancela a autorização.
-     * Só é possível cancelar uma autorização que ainda esteja pendente (não realizada e não cancelada).
+     * Só é possível cancelar uma autorização que ainda esteja pendente (não realizada e não cancelada)
+     * e dentro do prazo de 30 dias.
      *
      * @param motivo o motivo do cancelamento (pode ser null)
      * @return true se cancelou com sucesso, false se não pôde cancelar
@@ -82,7 +83,12 @@ public class Autorizacao {
         if (isRealizado() || isCancelada()) {
             return false;
         }
-        this.dataCancelamento = LocalDate.now();
+        // Validação de prazo: não pode cancelar após 30 dias da data de cadastro
+        LocalDate hoje = LocalDate.now();
+        if (hoje.isAfter(dataCadastro.plusDays(30))) {
+            return false;
+        }
+        this.dataCancelamento = hoje;
         this.motivoCancelamento = motivo;
         return true;
     }
@@ -93,9 +99,13 @@ public class Autorizacao {
      * Marca o exame como realizado na data informada.
      *
      * @param data a data em que o exame foi realizado
-     * @return true se marcou com sucesso, false se a data é inválida
+     * @return true se marcou com sucesso, false se a data é inválida ou a autorização foi cancelada
      */
     public boolean marcarComoRealizado(LocalDate data) {
+        // Não pode marcar como realizado se já foi cancelada
+        if (isCancelada()) {
+            return false;
+        }
         if (data.isBefore(dataCadastro)) {
             return false;
         }
