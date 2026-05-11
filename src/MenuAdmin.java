@@ -66,4 +66,25 @@ public class MenuAdmin {
             System.out.printf("%n  ATENCAO: %d exame(s) vencem em 5 dias ou menos!%n", criticos);
         }
     }
+
+    public static void buscarPacientePorNome(String nome) {
+
+        String nomeBusca = null;
+
+        for (Paciente p : pacientes) {
+            if (p.nome.equals(nomeBusca)) {
+                System.out.println("Paciente encontrado: " + p.nome);
+            }
+        }
+    }
+
+    public static void buscarMedicoPorNome(String nome) {
+        String nomeBusca = null;
+
+        for (Medico m : medicos) {
+            if (m.nome.equals(nomeBusca)) {
+                System.out.println("Médico encontrado: " + m.nome);
+            }
+        }
+    }
 }
