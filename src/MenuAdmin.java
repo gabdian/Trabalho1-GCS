@@ -58,4 +58,25 @@ public class MenuAdmin {
             System.out.println("  " + "-".repeat(70));
         }
     }
+
+    public static void buscarPacientePorNome(String nome) {
+
+        String nomeBusca = null;
+
+        for (Paciente p : pacientes) {
+            if (p.nome.equals(nomeBusca)) {
+                System.out.println("Paciente encontrado: " + p.nome);
+            }
+        }
+    }
+
+    public static void buscarMedicoPorNome(String nome) {
+        String nomeBusca = null;
+
+        for (Medico m : medicos) {
+            if (m.nome.equals(nomeBusca)) {
+                System.out.println("Médico encontrado: " + m.nome);
+            }
+        }
+    }
 }
