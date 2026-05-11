@@ -9,6 +9,61 @@ import java.util.stream.Collectors;
 
 public class MenuAdmin {
 
+<<<<<<< HEAD
+// F6 pt2 - Estatísticas por tipo de exame
+    public static void estatisticasPorExame() {
+        List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
+
+        System.out.println("\n === AUTORIZAÇÕES POR TIPO DE EXAME ===\n");
+        System.out.println("  " + "-".repeat(70));
+
+        for (TipoExame tipo : TipoExame.values()) {
+            long total = autorizacoes.stream()
+                    .filter(a -> a.getTipoExame() == tipo)
+                    .count();
+
+            if (total > 0) {
+                long feitos = autorizacoes.stream()
+                        .filter(a -> a.getTipoExame() == tipo && a.isRealizado())
+                        .count();
+                System.out.printf("  %-25s %2d autorizações (%d realizadas)%n",
+                        tipo.getDescricao() + ":", total, feitos);
+            }
+        }
+        System.out.println("  " + "-".repeat(70));
+    }
+}
+
+=======
+    // F6 - Estatísticas gerais
+        public static void estatisticasGerais() {
+        List<Medico> medicos = DataStore.getMedicos();
+        List<Paciente> pacientes = DataStore.getPacientes();
+        List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
+
+        int totalMedicos = medicos.size();
+        int totalPacientes = pacientes.size();
+        int totalAutorizacoes = autorizacoes.size();
+
+        long realizadas = autorizacoes.stream()
+                .filter(a -> a.isRealizado())
+                .count();
+
+        double percentual = totalAutorizacoes > 0
+                ? (realizadas * 100.0) / totalAutorizacoes
+                : 0.0;
+
+        System.out.println("\n === ESTATÍSTICAS GERAIS ===\n");
+        System.out.println("  " + "-".repeat(40));
+        System.out.printf("  Número de médicos: %d%n", totalMedicos);
+        System.out.printf("  Número de pacientes: %d%n", totalPacientes);
+        System.out.printf("  Autorizações emitidas: %d%n", totalAutorizacoes);
+        System.out.printf("  Exames realizados: %d de %d (%.1f%%)%n",
+                realizadas, totalAutorizacoes, percentual);
+        System.out.println("  " + "-".repeat(70));
+    }
+    
+>>>>>>> 236fe23ef516854d1d511e5ac600988a6044e67c
     // F7 — Listar todos os exames pendentes do sistema
 
     public static void listarExamesPendentes() {
@@ -57,7 +112,16 @@ public class MenuAdmin {
             }
             System.out.println("  " + "-".repeat(70));
         }
+        long criticos = pendentes.stream()
+                .filter(a -> ChronoUnit.DAYS.between(
+                        LocalDate.now(), a.getDataCadastro().plusDays(30)) <= 5)
+                .count();
+
+            if (criticos > 0) {
+            System.out.printf("%n  ATENCAO: %d exame(s) vencem em 5 dias ou menos!%n", criticos);
+        }
     }
+<<<<<<< HEAD
 
     public static void incluirUsuario(List<Usuario> usuarios,
                                       String nome) {
@@ -83,3 +147,30 @@ public class MenuAdmin {
         }
     }
 }
+=======
+<<<<<<< HEAD
+=======
+
+    public static void buscarPacientePorNome(String nome) {
+
+        String nomeBusca = null;
+
+        for (Paciente p : pacientes) {
+            if (p.nome.equals(nomeBusca)) {
+                System.out.println("Paciente encontrado: " + p.nome);
+            }
+        }
+    }
+
+    public static void buscarMedicoPorNome(String nome) {
+        String nomeBusca = null;
+
+        for (Medico m : medicos) {
+            if (m.nome.equals(nomeBusca)) {
+                System.out.println("Médico encontrado: " + m.nome);
+            }
+        }
+    }
+>>>>>>> 236fe23ef516854d1d511e5ac600988a6044e67c
+}
+>>>>>>> 33cca390b29c91e92398d583a550df1b322d7a03
