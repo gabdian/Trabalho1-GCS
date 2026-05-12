@@ -47,7 +47,7 @@ public class MenuPaciente {
         boolean encontrou = false;
 
         for (Autorizacao autorizacao : DataStore.getAutorizacoes()) {
-            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().equalsIgnoreCase(nomeMedico)) {
+            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().toLowerCase().contains(nomeMedico.toLowerCase())) {
                 System.out.println(autorizacao);
                 encontrou = true;
             }
