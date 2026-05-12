@@ -115,6 +115,9 @@ public class Autorizacao {
         this.dataRealizacao = data;
         return true;
     }
+    public void setDataRealizacao(LocalDate dataRealizacao) {
+        this.dataRealizacao = dataRealizacao;
+    }
 
     public static void setContadorCodigo(int valor) {
         contadorCodigo = valor;
