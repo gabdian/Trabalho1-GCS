@@ -44,10 +44,13 @@ public class MenuPaciente {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Digite o nome do médico: ");
         String nomeMedico = scanner.nextLine();
+        if (nomeMedico.isEmpty()) {
+            System.out.println("Digite um nome válido.");
+            return;
+        }
         boolean encontrou = false;
-
         for (Autorizacao autorizacao : DataStore.getAutorizacoes()) {
-            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().equalsIgnoreCase(nomeMedico)) {
+            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().toLowerCase().contains(nomeMedico.toLowerCase())) {
                 System.out.println(autorizacao);
                 encontrou = true;
             }
