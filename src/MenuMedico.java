@@ -10,21 +10,21 @@ import model.Paciente;
 import model.TipoExame;
 
 public class MenuMedico {
-    public static void novaAutorizacao() {
+    public static void novaAutorizacao(Medico medicoAtual) {
         System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
 
         Scanner scanner = new Scanner(System.in);
 
         LocalDate dataCadastro = LocalDate.now();
 
-        Medico medicoSelecionado = (Medico) DataStore.getUsuarioAtual();
+        Medico medicoSelecionado = medicoAtual;
         System.out.println("Medico solicitante: " + medicoSelecionado.getNome());
 
         Paciente pacienteSelecionado = selecionaPaciente(scanner);
 
         TipoExame exameSelecionado = selecionaExame(scanner);
 
-        if (medicoSelecionado != null && pacienteSelecionado != null && exameSelecionado != null) {
+        if (pacienteSelecionado != null && exameSelecionado != null) {
             Autorizacao autorizacaoNova = new Autorizacao(dataCadastro, medicoSelecionado,
                     pacienteSelecionado, exameSelecionado);
 
