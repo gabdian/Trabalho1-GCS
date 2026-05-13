@@ -25,7 +25,8 @@ public class MenuMedico {
 
         // 3) Interagir entre todos os elementos que ja existem que sao pacientes e printar na tela
         // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
-        
+        Paciente pacienteSelecionado = selecionaPaciente(scanner);
+
         // 4) Interagir entre todos os elementos que ja existem que sao exame e printar na tela
         // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
         
@@ -38,6 +39,13 @@ public class MenuMedico {
         return medicos.get(indice);
     }
 
+    private static Paciente selecionaPaciente(Scanner scanner) {
+        List<Paciente> pacientes = DataStore.getPacientes();
+        
+        int indice = getIndexSelecionado(scanner, pacientes, "Paciente");
+        return pacientes.get(indice);
+    }
+    
     private static <T> int getIndexSelecionado(Scanner scanner, List<T> lista, String nomeEntidade) {
         System.out.println("Indice | " + nomeEntidade);
 
