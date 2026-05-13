@@ -13,14 +13,6 @@ import model.TipoExame;
 import model.Usuario;
 
 public class MenuMedico {
-
-    // Pra teste
-    public static void main(String[] args) {
-        List<Medico> medicos = DataStore.getMedicos();
-        Medico medicoAtual = medicos.get(0);
-        listarAutorizacoes(medicoAtual);
-    }
-
     public static void novaAutorizacao() {
         // Imprime a tela inicial para fazer a Nova Autorizacao
         System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
