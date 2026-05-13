@@ -1,5 +1,7 @@
 import data.DataStore;
-import model.*;
+import model.Autorizacao;
+import model.Medico;
+import model.Paciente;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -160,7 +162,7 @@ public class MenuAdmin {
      * @param nome Nome do médico a ser cadastrado
      */
     public static void incluirMedico(List<Medico> medicos,
-                                       String nome) {
+                                     String nome) {
 
         boolean existe = false;
 
