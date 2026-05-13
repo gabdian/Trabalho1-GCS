@@ -16,7 +16,9 @@ public class MenuMedico {
         Scanner scanner = new Scanner(System.in);
 
         LocalDate dataCadastro = LocalDate.now();
-        Medico medicoSelecionado = selecionaMedico(scanner);
+
+        Medico medicoSelecionado = (Medico) DataStore.getUsuarioAtual();
+        System.out.println("Medico solicitante: " + medicoSelecionado.getNome());
 
         Paciente pacienteSelecionado = selecionaPaciente(scanner);
 
@@ -36,17 +38,6 @@ public class MenuMedico {
             System.out.println("\n=============================================\n");
         } else {
             System.out.println("\n === Autorizacão não foi adicionado, devido a falta de dados === \n");
-        }
-    }
-
-    private static Medico selecionaMedico(Scanner scanner) {
-        List<Medico> medicos = DataStore.getMedicos();
-
-        int indice = getIndexSelecionado(scanner, medicos, "Médico");
-        if (indice != -1) {
-            return medicos.get(indice);
-        } else {
-            return null;
         }
     }
 
