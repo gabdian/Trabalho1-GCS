@@ -1,5 +1,5 @@
 import data.DataStore;
-import model.Autorizacao;
+import model.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class MenuAdmin {
 
-// F6 pt2 - Estatísticas por tipo de exame
+    // F6 pt2 - Estatísticas por tipo de exame
     public static void estatisticasPorExame() {
         List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
 
@@ -31,11 +31,10 @@ public class MenuAdmin {
         }
         System.out.println("  " + "-".repeat(70));
     }
-}
 
 
     // F6 - Estatísticas gerais
-        public static void estatisticasGerais() {
+    public static void estatisticasGerais() {
         List<Medico> medicos = DataStore.getMedicos();
         List<Paciente> pacientes = DataStore.getPacientes();
         List<Autorizacao> autorizacoes = DataStore.getAutorizacoes();
@@ -61,7 +60,7 @@ public class MenuAdmin {
                 realizadas, totalAutorizacoes, percentual);
         System.out.println("  " + "-".repeat(70));
     }
-    
+
     // F7 — Listar todos os exames pendentes do sistema
 
     public static void listarExamesPendentes() {
@@ -115,54 +114,109 @@ public class MenuAdmin {
                         LocalDate.now(), a.getDataCadastro().plusDays(30)) <= 5)
                 .count();
 
-            if (criticos > 0) {
+        if (criticos > 0) {
             System.out.printf("%n  ATENCAO: %d exame(s) vencem em 5 dias ou menos!%n", criticos);
         }
     }
 
-    public static void incluirUsuario(List<Usuario> usuarios,
-                                      String nome) {
+    /**
+     * Valida e adiciona um paciente para a lista
+     * @param pacientes Lista de destino
+     * @param nome Nome do paciente a ser cadastrado
+     */
+
+    public static void incluirPaciente(List<Paciente> pacientes,
+                                       String nome) {
 
         boolean existe = false;
 
-        for (String usuario : usuarios) {
-            if (usuario.equalsIgnoreCase(nome)) {
+        // Verifica se o nome já consta na lista de pacientes
+        for (Paciente p : pacientes) {
+            if (p.getNome().equalsIgnoreCase(nome)) {
                 existe = true;
             }
         }
 
+        // Validações de regras de negócio antes da inserção
         if (nome.isEmpty()) {
             System.out.println("Nome inválido.");
         } else if (nome.length() < 3) {
             System.out.println("Nome muito curto.");
         } else if (existe) {
-            System.out.println("OBS: Usuário já fora cadastrado.");
+            System.out.println("OBS: Paciente já fora cadastrado.");
         } else {
-            usuarios.add(nome);
+            //Como Usuário é abstrata, instancia-se a subclasse concreta Paciente
+            Paciente novoPaciente;
+            novoPaciente = new Paciente(+1, nome, "");
+            pacientes.add(novoPaciente);
 
-            System.out.println("Usuário incluído com sucesso.");
-        }
-    }
-}
-
-    public static void buscarPacientePorNome(String nome) {
-
-        String nomeBusca = null;
-
-        for (Paciente p : pacientes) {
-            if (p.nome.equals(nomeBusca)) {
-                System.out.println("Paciente encontrado: " + p.nome);
-            }
+            System.out.println("Paciente incluído com sucesso.");
         }
     }
 
-    public static void buscarMedicoPorNome(String nome) {
-        String nomeBusca = null;
+    /**
+     * Valida e adiciona um médico para a lista
+     * @param medicos Lista de destino
+     * @param nome Nome do médico a ser cadastrado
+     */
+    public static void incluirMedico(List<Medico> medicos,
+                                       String nome) {
 
+        boolean existe = false;
+
+        //Verifica se o nome já existe na lista de medicos
         for (Medico m : medicos) {
-            if (m.nome.equals(nomeBusca)) {
-                System.out.println("Médico encontrado: " + m.nome);
+            if (m.getNome().equalsIgnoreCase(nome)) {
+                existe = true;
             }
+        }
+
+        //Validações de regras de negócio antes da inserção
+        if (nome.isEmpty()) {
+            System.out.println("Nome inválido.");
+        } else if (nome.length() < 3) {
+            System.out.println("Nome muito curto.");
+        } else if (existe) {
+            System.out.println("OBS: Médico já fora cadastrado.");
+        } else {
+            // instanciação da subclasse concreta Médico
+            Medico novoMedico;
+            novoMedico = new Medico(1, nome, "");
+            medicos.add(novoMedico);
+
+            System.out.println("Médico incluído com sucesso.");
+        }
+    }
+
+    /**
+     * Procura um paciente na lista pelo nome
+     * @param pacientes Lista onde a busca será executada
+     * @param nome Critério de busca
+     */
+    public static void buscarPacientePorNome(List<Paciente> pacientes, String nome) {
+
+        //Percorre a lista comparando o parâmetro 'nome' com o atributo do objeto
+        for (Paciente p : pacientes) {
+            if (p.getNome().equalsIgnoreCase(nome)) {
+                System.out.println("Paciente encontrado: " + p.getNome());
+            }
+            System.out.println("Paciente não existe" + nome);
+        }
+    }
+
+    /**
+     * Procura um médico na lista pelo nome
+     * @param medicos Lista onde a busca será executada
+     * @param nome Critério de busca
+     */
+    public static void buscarMedicoPorNome(List<Medico> medicos, String nome) {
+
+        //Percorre a lista comparando o parâmetro 'nome' com o atributo do objeto
+        for (Medico m : medicos) {
+            if (m.getNome().equalsIgnoreCase(nome)) {
+                System.out.println("Médico encontrado: " + m.getNome());
+            }
+            System.out.println("Médico não existe" + nome);
         }
     }
 }
