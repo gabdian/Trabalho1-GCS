@@ -67,13 +67,27 @@ public class MenuMedico {
         Scanner scanner = new Scanner(System.in);
         // 1) Interagir entre todos os elementos que ja existem que sao pacientes e printar na tela
         // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
-        //Paciente pacienteSelecionado = selecionaPaciente(scanner);
-        //listarAutorizacoesPaciente(pacienteSelecionado);
 
-        TipoExame exameSelecionado = selecionaExame(scanner);
-        listarAutorizacoesExame(exameSelecionado);
-
-
+        // Seleciona se quer filtro exame ou paciente
+        System.out.println("Filtrar por:\n" +
+                            "Indice | Filtro\n" +
+                            "  1    - Paciente\n" +
+                            "  2    - Exame\n");
+        
+        System.out.print("Digite o indice desejado: ");
+        int opcao = scanner.nextInt();
+        while (opcao < 1 ||
+                opcao > 2) {
+            System.out.print("Digite um indice válido: ");
+            opcao = scanner.nextInt();
+        }
+        if (opcao == 1) {
+            Paciente pacienteSelecionado = selecionaPaciente(scanner);
+            listarAutorizacoesPaciente(pacienteSelecionado);
+        } else if (opcao == 2) {
+            TipoExame exameSelecionado = selecionaExame(scanner);
+            listarAutorizacoesExame(exameSelecionado);
+        }
     }
 
     private static void listarAutorizacoesExame(TipoExame exameAtual) {
