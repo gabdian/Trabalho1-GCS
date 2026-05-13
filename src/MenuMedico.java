@@ -2,14 +2,25 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import data.DataStore;
 import model.Autorizacao;
 import model.Medico;
 import model.Paciente;
 import model.TipoExame;
+import model.Usuario;
 
 public class MenuMedico {
+
+    // Pra teste
+    public static void main(String[] args) {
+        List<Medico> medicos = DataStore.getMedicos();
+        Medico medicoAtual = medicos.get(0);
+        listarAutorizacoes(medicoAtual);
+    }
+
     public static void novaAutorizacao() {
         // Imprime a tela inicial para fazer a Nova Autorizacao
         System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
@@ -48,6 +59,49 @@ public class MenuMedico {
             System.out.println("\n === Autorizacão não foi adicionado, devido a falta de dados === \n");
         }
     }
+
+    public static void listarAutorizacoes(Medico medicoAtual) {
+        // Imprime a tela inicial para fazer a Nova Autorizacao
+        System.out.println("\n ====== Listar Autorizações ======\n");
+
+        Scanner scanner = new Scanner(System.in);
+        // 1) Interagir entre todos os elementos que ja existem que sao pacientes e printar na tela
+        // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
+        Paciente pacienteSelecionado = selecionaPaciente(scanner);
+        listarAutorizacoesPaciente(pacienteSelecionado);
+
+    }
+
+    private static void listarAutorizacoesPaciente (Usuario pacienteAtual) {
+        System.out.println("\n=== AUTORIZAÇÕES DO PACIENTE === \n");
+
+        List<Autorizacao> minhasAutorizacoes = new ArrayList<>();
+
+        // Passa pela lista global do DataStore e filtra as do paciente
+        for (Autorizacao aut : DataStore.getAutorizacoes()) {
+            if (aut.getPaciente().equals(pacienteAtual)) {
+                minhasAutorizacoes.add(aut);
+            }
+        }
+
+        if (minhasAutorizacoes.isEmpty()) {
+            System.out.println("Paciente selecionado não possui nenhuma autorização de exame.");
+            return;
+        }
+            minhasAutorizacoes.sort(Comparator.comparing(Autorizacao::getDataCadastro));
+
+            for (Autorizacao aut : minhasAutorizacoes) {
+                String status = aut.isRealizado() ? "Realizado" : "Pendente";
+                System.out.println("Código: " + aut.getCodigo() +
+                        "\n | Data Solicitação: " + aut.getDataCadastro() +
+                        "\n | Médico Solicitante: " + aut.getMedicoSolicitante() + 
+                        "\n | Paciente: " + aut.getPaciente() +
+                        "\n | Exame: " + aut.getTipoExame().getDescricao() +
+                        "\n | Status: " + status +
+                        "\n");
+            }
+        }
+
 
     private static Medico selecionaMedico(Scanner scanner) {
         List<Medico> medicos = DataStore.getMedicos();
@@ -95,7 +149,7 @@ public class MenuMedico {
             System.out.println("  " + (i + 1) + "    - " + lista.get(i));
         }
 
-        System.out.print("Digite o indice do "+ nomeEntidade +": ");
+        System.out.print("Digite o indice do "+ nomeEntidade +" desejados: ");
         int opcao = scanner.nextInt();
         while (opcao < 1 ||
                 opcao > tamanhoLista) {
