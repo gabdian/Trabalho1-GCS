@@ -3,12 +3,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import data.DataStore;
 import model.Autorizacao;
 import model.Medico;
 import model.Paciente;
 import model.TipoExame;
+import model.Usuario;
 
 public class MenuMedico {
 
