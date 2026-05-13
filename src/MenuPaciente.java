@@ -29,10 +29,10 @@ public class MenuPaciente {
 
             switch (opcao) {
                 case 1:
-                    //listarAutorizacoes(pacienteAtual);
+                    listarAutorizacoes(pacienteAtual);
                     break;
                 case 2:
-                    //marcarExameComoRealizado(pacienteAtual);
+                    marcarExameComoRealizado(pacienteAtual);
                     break;
                 case 3:
                     filtrarAutorizacoesPorMedico(pacienteAtual);
@@ -56,7 +56,8 @@ public class MenuPaciente {
         }
         boolean encontrou = false;
         for (Autorizacao autorizacao : DataStore.getAutorizacoes()) {
-            if (autorizacao.getPaciente().equals(pacienteAtual) && autorizacao.getMedicoSolicitante().getNome().toLowerCase().contains(nomeMedico.toLowerCase())) {
+            if (autorizacao.getPaciente().equals(pacienteAtual) &&
+                    autorizacao.getMedicoSolicitante().getNome().toLowerCase().contains(nomeMedico.toLowerCase())) {
                 System.out.println(autorizacao);
                 encontrou = true;
             }
