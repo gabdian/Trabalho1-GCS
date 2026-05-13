@@ -29,7 +29,7 @@ public class MenuMedico {
 
         // 4) Interagir entre todos os elementos que ja existem que sao exame e printar na tela
         // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
-        
+        TipoExame exameSelecionado = selecionaExame(scanner);
     }
 
     private static Medico selecionaMedico(Scanner scanner) {
@@ -45,7 +45,14 @@ public class MenuMedico {
         int indice = getIndexSelecionado(scanner, pacientes, "Paciente");
         return pacientes.get(indice);
     }
-    
+
+    private static TipoExame selecionaExame(Scanner scanner) {
+        TipoExame[] exames = TipoExame.values();
+
+        int indice = getIndexSelecionado(scanner, Arrays.asList(exames), "Exame");
+        return exames[indice];
+    }
+
     private static <T> int getIndexSelecionado(Scanner scanner, List<T> lista, String nomeEntidade) {
         System.out.println("Indice | " + nomeEntidade);
 
