@@ -86,11 +86,16 @@ public class MenuMedico {
         }
 
         System.out.print("Digite o indice do " + nomeEntidade + ": ");
-        int opcao = scanner.nextInt();
-        while (opcao < 1 ||
-                opcao > tamanhoLista) {
-            System.out.print("Digite um indice válido: ");
-            opcao = scanner.nextInt();
+        int opcao = -1;
+        while (opcao < 1 || opcao > tamanhoLista) {
+            try {
+                opcao = Integer.parseInt(scanner.nextLine().trim());
+                if (opcao < 1 || opcao > tamanhoLista) {
+                    System.out.print("Digite um indice valido: ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Entrada invalida. Digite um numero: ");
+            }
         }
 
         return (opcao - 1);
