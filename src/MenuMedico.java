@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import data.DataStore;
@@ -10,10 +11,48 @@ import model.Paciente;
 import model.TipoExame;
 
 public class MenuMedico {
-    public static void novaAutorizacao(Medico medicoAtual) {
-        System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
 
-        Scanner scanner = new Scanner(System.in);
+    public static void exibirMenu(Scanner scanner, Medico medicoAtual) {
+        int opcao = -1;
+
+        do {
+            System.out.println("\n=== MENU DO MEDICO ===");
+            System.out.println("1 - Nova autorizacao de exame");
+            System.out.println("2 - Listar autorizacoes por paciente");
+            System.out.println("3 - Listar autorizacoes por tipo de exame");
+            System.out.println("4 - Cancelar autorizacao");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha: ");
+
+            try {
+                opcao = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada invalida.");
+                continue;
+            }
+
+            switch (opcao) {
+                case 1:
+                    novaAutorizacao(scanner, medicoAtual);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    cancelarAutorizacao(scanner, medicoAtual);
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu principal...");
+                    break;
+                default:
+                    System.out.println("Opcao invalida.");
+            }
+        } while (opcao != 0);
+    }
+
+    public static void novaAutorizacao(Scanner scanner, Medico medicoAtual) {
+        System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
 
         LocalDate dataCadastro = LocalDate.now();
 
@@ -60,6 +99,39 @@ public class MenuMedico {
             return exames[indice];
         } else {
             return null;
+        }
+    }
+
+    private static void cancelarAutorizacao(Scanner scanner, Medico medicoAtual) {
+        System.out.println("\n=== CANCELAR AUTORIZACAO ===\n");
+
+        List<Autorizacao> minhas = new ArrayList<>();
+        for (Autorizacao a : DataStore.getAutorizacoes()) {
+            if (a.getMedicoSolicitante().equals(medicoAtual)
+                    && !a.isRealizado() && !a.isCancelada()) {
+                minhas.add(a);
+            }
+        }
+
+        if (minhas.isEmpty()) {
+            System.out.println("Voce nao tem autorizacoes pendentes para cancelar.");
+            return;
+        }
+
+        int indice = getIndexSelecionado(scanner, minhas, "Autorizacao");
+        if (indice == -1)
+            return;
+
+        Autorizacao selecionada = minhas.get(indice);
+
+        System.out.print("Motivo do cancelamento: ");
+        String motivo = scanner.nextLine().trim();
+
+        if (selecionada.cancelar(motivo)) {
+            System.out.println("Autorizacao #" + selecionada.getCodigo()
+                    + " cancelada com sucesso.");
+        } else {
+            System.out.println("Nao foi possivel cancelar (prazo de 30 dias expirado).");
         }
     }
 
