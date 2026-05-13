@@ -5,5 +5,7 @@ public class Main {
         System.out.println("  Sistema de Autorizacao de Exames Medicos");
         System.out.println("==========================================");
 
+        MenuMedico.novaAutorizacao();
+
     }
 }

@@ -11,30 +11,20 @@ import model.TipoExame;
 
 public class MenuMedico {
     public static void novaAutorizacao() {
-        // Imprime a tela inicial para fazer a Nova Autorizacao
         System.out.println("\n ====== NOVA AUTORIZAÇÃO ======\n");
 
         Scanner scanner = new Scanner(System.in);
-        
-        // 1) Pegar a data em que o cadastro da autorizacao esta sendo realizado
+
         LocalDate dataCadastro = LocalDate.now();
-        
-        // 2) Interagir entre todos os elementos que ja existem que sao medicos e printar na tela
-        // para o usuário selecionar qual medico ele deseja. (apenas 1)
         Medico medicoSelecionado = selecionaMedico(scanner);
 
-        // 3) Interagir entre todos os elementos que ja existem que sao pacientes e printar na tela
-        // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
         Paciente pacienteSelecionado = selecionaPaciente(scanner);
 
-        // 4) Interagir entre todos os elementos que ja existem que sao exame e printar na tela
-        // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
         TipoExame exameSelecionado = selecionaExame(scanner);
 
-        // 5) Salvar a autorizacao na lista de autorizacoes
-        if (medicoSelecionado != null || pacienteSelecionado != null || exameSelecionado != null){
+        if (medicoSelecionado != null && pacienteSelecionado != null && exameSelecionado != null) {
             Autorizacao autorizacaoNova = new Autorizacao(dataCadastro, medicoSelecionado,
-                                        pacienteSelecionado, exameSelecionado);
+                    pacienteSelecionado, exameSelecionado);
 
             DataStore.adicionarAutorizacao(autorizacaoNova);
 
@@ -51,9 +41,9 @@ public class MenuMedico {
 
     private static Medico selecionaMedico(Scanner scanner) {
         List<Medico> medicos = DataStore.getMedicos();
-        
+
         int indice = getIndexSelecionado(scanner, medicos, "Médico");
-        if (indice != -1){
+        if (indice != -1) {
             return medicos.get(indice);
         } else {
             return null;
@@ -62,9 +52,9 @@ public class MenuMedico {
 
     private static Paciente selecionaPaciente(Scanner scanner) {
         List<Paciente> pacientes = DataStore.getPacientes();
-        
+
         int indice = getIndexSelecionado(scanner, pacientes, "Paciente");
-        if (indice != -1){
+        if (indice != -1) {
             return pacientes.get(indice);
         } else {
             return null;
@@ -75,7 +65,7 @@ public class MenuMedico {
         TipoExame[] exames = TipoExame.values();
 
         int indice = getIndexSelecionado(scanner, Arrays.asList(exames), "Exame");
-        if (indice != -1){
+        if (indice != -1) {
             return exames[indice];
         } else {
             return null;
@@ -88,14 +78,14 @@ public class MenuMedico {
             System.out.println("Não existe nenhum " + nomeEntidade);
             return -1;
         }
-        
+
         System.out.println("Indice | " + nomeEntidade);
 
         for (int i = 0; i < tamanhoLista; i++) {
             System.out.println("  " + (i + 1) + "    - " + lista.get(i));
         }
 
-        System.out.print("Digite o indice do "+ nomeEntidade +": ");
+        System.out.print("Digite o indice do " + nomeEntidade + ": ");
         int opcao = scanner.nextInt();
         while (opcao < 1 ||
                 opcao > tamanhoLista) {
