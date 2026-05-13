@@ -30,6 +30,19 @@ public class MenuMedico {
         // 4) Interagir entre todos os elementos que ja existem que sao exame e printar na tela
         // para o usuário selecionar qual pacientes ele deseja. (apenas 1)
         TipoExame exameSelecionado = selecionaExame(scanner);
+
+        // 5) Salvar a autorizacao na lista de autorizacoes
+        Autorizacao autorizacaoNova = new Autorizacao(dataCadastro, medicoSelecionado,
+                                     pacienteSelecionado, exameSelecionado);
+
+        DataStore.adicionarAutorizacao(autorizacaoNova);
+
+        System.out.println("\n === Autorizacão adicionada com sucesso === \n");
+        System.out.println("Data da Autorização: " + dataCadastro);
+        System.out.println("Medico Selecionado: " + medicoSelecionado);
+        System.out.println("Paciente Selecionado : " + pacienteSelecionado);
+        System.out.println("Exame Selecionado: " + exameSelecionado);
+        System.out.println("\n=============================================\n");
     }
 
     private static Medico selecionaMedico(Scanner scanner) {
