@@ -2,6 +2,7 @@ import data.DataStore;
 import model.Autorizacao;
 import model.Medico;
 import model.Paciente;
+import model.TipoExame;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
