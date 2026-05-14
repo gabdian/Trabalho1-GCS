@@ -71,9 +71,8 @@ public class MenuPaciente {
 
         List<Autorizacao> minhasAutorizacoes = new ArrayList<>();
 
-        // Passa pela lista global do DataStore e filtra as do paciente
         for (Autorizacao aut : DataStore.getAutorizacoes()) {
-            if (aut.getPaciente().equals(pacienteAtual)) {
+            if (aut.getPaciente().getId() == pacienteAtual.getId()) {
                 minhasAutorizacoes.add(aut);
             }
         }
@@ -82,16 +81,21 @@ public class MenuPaciente {
             System.out.println("Você não possui nenhuma autorização de exame.");
             return;
         }
-            minhasAutorizacoes.sort(Comparator.comparing(Autorizacao::getDataCadastro));
 
-            for (Autorizacao aut : minhasAutorizacoes) {
-                String status = aut.isRealizado() ? "Realizado" : "Pendente";
-                System.out.println("Código: " + aut.getCodigo() +
-                        " | Data Solicitação: " + aut.getDataCadastro() +
-                        " | Exame: " + aut.getTipoExame().getDescricao() +
-                        " | Status: " + status);
+        minhasAutorizacoes.sort(Comparator.comparing(Autorizacao::getDataCadastro));
+
+        for (Autorizacao aut : minhasAutorizacoes) {
+            String status = aut.isRealizado() ? "Realizado" : "Pendente";
+            if (aut.isCancelada()) {
+                status = "Cancelada";
             }
+
+            System.out.println("Código: " + aut.getCodigo() +
+                    " | Data Solicitação: " + aut.getDataCadastro() +
+                    " | Exame: " + aut.getTipoExame().getDescricao() +
+                    " | Status: " + status);
         }
+    }
     private static void marcarExameComoRealizado(Usuario pacienteAtual) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nDigite o código da autorização que deseja marcar como realizada: ");
@@ -99,9 +103,9 @@ public class MenuPaciente {
 
         Autorizacao autorizacaoEncontrada = null;
 
-        // Busca a autorização pelo código e verifica se é realmente deste paciente
         for (Autorizacao aut : DataStore.getAutorizacoes()) {
-            if (aut.getCodigo() == codigoDigitado && aut.getPaciente().equals(pacienteAtual)) {
+            // CORREÇÃO: Comparando o código E o ID do paciente
+            if (aut.getCodigo() == codigoDigitado && aut.getPaciente().getId() == pacienteAtual.getId()) {
                 autorizacaoEncontrada = aut;
                 break;
             }
@@ -116,6 +120,7 @@ public class MenuPaciente {
             System.out.println("Este exame já está marcado como realizado.");
             return;
         }
+
         System.out.println("Digite a data de realização do exame:");
         System.out.print("Ano (ex: 2026): ");
         int ano = scanner.nextInt();
@@ -125,26 +130,14 @@ public class MenuPaciente {
         int dia = scanner.nextInt();
 
         LocalDate dataInformada = LocalDate.of(ano, mes, dia);
-        LocalDate dataSolicitacao = autorizacaoEncontrada.getDataCadastro();
 
-        if (dataInformada.isBefore(dataSolicitacao)) {
-            System.out.println("Erro: A data informada é anterior à solicitação (" + dataSolicitacao + ").");
-            return;
-        }
-        long diasDiferenca = ChronoUnit.DAYS.between(dataSolicitacao, dataInformada);
-        if (diasDiferenca > 30) {
-            System.out.println("Erro: O prazo de 30 dias para realizar este exame já expirou.");
-            return;
-        }
+        boolean sucesso = autorizacaoEncontrada.marcarComoRealizado(dataInformada);
 
-        if (autorizacaoEncontrada.isCancelada()) {
-            System.out.println("Erro: Esta autorização foi cancelada e não pode ser realizada.");
-            System.out.println("Motivo do cancelamento: " + autorizacaoEncontrada.getMotivoCancelamento());
-            return;
+        if (sucesso) {
+            System.out.println("Sucesso! Exame marcado como realizado.");
+        } else {
+            System.out.println("Erro: Não foi possível marcar o exame. Verifique se a data não é anterior ao pedido, se não passou de 30 dias ou se a autorização foi cancelada.");
         }
-        autorizacaoEncontrada.setDataRealizacao(dataInformada);
-
-        System.out.println("Sucesso! Exame marcado como realizado.");
     }
 }
 
