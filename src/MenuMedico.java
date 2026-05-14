@@ -39,8 +39,12 @@ public class MenuMedico {
                     novaAutorizacao(scanner, medicoAtual);
                     break;
                 case 2:
+                    Paciente pacienteSelecionado = selecionaPaciente(scanner);
+                    listarAutorizacoesPaciente(pacienteSelecionado);
                     break;
                 case 3:
+                    TipoExame exameSelecionado = selecionaExame(scanner);
+                    listarAutorizacoesExame(exameSelecionado);
                     break;
                 case 4:
                     cancelarAutorizacao(scanner, medicoAtual);
@@ -166,4 +170,67 @@ public class MenuMedico {
 
         return (opcao - 1);
     }
+
+    private static void listarAutorizacoesExame(TipoExame exameAtual) {
+        System.out.println("\n=== AUTORIZAÇÕES DO PACIENTE === \n");
+
+        List<Autorizacao> minhasAutorizacoes = new ArrayList<>();
+
+        // Passa pela lista global do DataStore e filtra com esse exame
+        for (Autorizacao aut : DataStore.getAutorizacoes()) {
+            if (aut.getTipoExame().equals(exameAtual)) {
+                minhasAutorizacoes.add(aut);
+            }
+        }
+
+        if (minhasAutorizacoes.isEmpty()) {
+            System.out.println("Tipo de exame selecionado não possui nenhuma autorização");
+            return;
+        }
+        minhasAutorizacoes.sort(Comparator.comparing(Autorizacao::getDataCadastro));
+
+        for (Autorizacao aut : minhasAutorizacoes) {
+            String status = aut.isRealizado() ? "Realizado" : "Pendente";
+            System.out.println("Código: " + aut.getCodigo() +
+                    "\n | Data Solicitação: " + aut.getDataCadastro() +
+                    "\n | Médico Solicitante: " + aut.getMedicoSolicitante() +
+                    "\n | Paciente: " + aut.getPaciente() +
+                    "\n | Exame: " + aut.getTipoExame().getDescricao() +
+                    "\n | Status: " + status +
+                    "\n");
+        }
+
+    }
+
+    private static void listarAutorizacoesPaciente (Usuario pacienteAtual) {
+        System.out.println("\n=== AUTORIZAÇÕES DO PACIENTE === \n");
+
+        List<Autorizacao> minhasAutorizacoes = new ArrayList<>();
+
+        // Passa pela lista global do DataStore e filtra as do paciente
+        for (Autorizacao aut : DataStore.getAutorizacoes()) {
+            if (aut.getPaciente().equals(pacienteAtual)) {
+                minhasAutorizacoes.add(aut);
+            }
+        }
+
+        if (minhasAutorizacoes.isEmpty()) {
+            System.out.println("Paciente selecionado não possui nenhuma autorização de exame.");
+            return;
+        }
+        minhasAutorizacoes.sort(Comparator.comparing(Autorizacao::getDataCadastro));
+
+        for (Autorizacao aut : minhasAutorizacoes) {
+            String status = aut.isRealizado() ? "Realizado" : "Pendente";
+            System.out.println("Código: " + aut.getCodigo() +
+                    "\n | Data Solicitação: " + aut.getDataCadastro() +
+                    "\n | Médico Solicitante: " + aut.getMedicoSolicitante() +
+                    "\n | Paciente: " + aut.getPaciente() +
+                    "\n | Exame: " + aut.getTipoExame().getDescricao() +
+                    "\n | Status: " + status +
+                    "\n");
+        }
+    }
+
+
 }
